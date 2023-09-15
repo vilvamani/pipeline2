@@ -1,4 +1,4 @@
-ame: Close Pull Request
+name: Close Pull Request
 
 # only trigger on pull request closed events
 on:
