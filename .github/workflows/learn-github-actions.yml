@@ -1,17 +1,25 @@
-name: Run Tests
+ame: Close Pull Request
 
+# only trigger on pull request closed events
 on:
-  push:
-    branches: ["main"]
   pull_request:
-    types: [ assigned, opened, synchronize, reopened ]
-    branches:
-      - main
-      - test
+    types: [ closed ]
 
 jobs:
-  build:
+  merge_job:
+    # this job will only run if the PR has been merged
+    if: github.event.pull_request.merged == true
     runs-on: ubuntu-latest
     steps:
-      - name: Run tests
-        run: echo running tests 1
+    - run: |
+        echo PR #${{ github.event.number }} has been merged
+        echo PR #${{ github.event.pull_request.merged }} has been merged
+
+  close_job:
+    # this job will only run if the PR has been closed without being merged
+    if: github.event.pull_request.merged == false
+    runs-on: ubuntu-latest
+    steps:
+    - run: |
+        echo PR #${{ github.event.number }} has been closed without being merged
+        echo PR #${{ github.event.pull_request.merged }} has been closed without being merged
